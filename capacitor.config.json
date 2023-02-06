@@ -1,0 +1,6 @@
+{
+  "appId": "de.fitness.app",
+  "appName": "fitness-app",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
