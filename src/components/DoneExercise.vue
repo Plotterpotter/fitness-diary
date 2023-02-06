@@ -2,12 +2,19 @@
   <IonCard>
     <IonCardHeader>
       <IonCardSubtitle class="flex flex-row items-center justify-between"
-        ><span>Sets: {{ doneExercise.sets }}</span
+        ><span
+          >{{
+            exercises.find((el) => el.id === doneExercise.exercise).type ===
+            "krafttraining"
+              ? "Sets:"
+              : "Level:"
+          }}
+          {{ doneExercise.sets }}</span
         ><IonIcon
           :class="doneExercise.feedback ? 'text-green-400' : 'text-red-400'"
           :icon="doneExercise.feedback ? thumbsUp : thumbsDown"
       /></IonCardSubtitle>
-      <IonCardTitle>
+      <IonCardTitle class="text-xl">
         {{
           exercises.find((el) => el.id === doneExercise.exercise).name
         }}</IonCardTitle

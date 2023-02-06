@@ -18,11 +18,14 @@
       </ion-header>
       <CreateDoneExercise />
       <div class="border-b my-5"></div>
-      <DoneExercise
-        v-for="doneExercise in currentTraining.exercises"
-        :key="JSON.stringify(doneExercise)"
-        :doneExercise="doneExercise"
-      />
+      <IonList>
+        <IonItem
+          v-for="doneExercise in currentTraining.exercises"
+          :key="JSON.stringify(doneExercise)"
+        >
+          <DoneExercise class="w-full" :doneExercise="doneExercise" />
+        </IonItem>
+      </IonList>
     </ion-content>
   </ion-page>
 </template>
@@ -36,6 +39,9 @@ import {
   IonContent,
   IonButtons,
   IonButton,
+  alertController,
+  IonList,
+  IonItem,
 } from "@ionic/vue";
 import { storeToRefs } from "pinia";
 import CreateDoneExercise from "../components/CreateDoneExercise";
@@ -46,6 +52,22 @@ const { currentTraining } = storeToRefs(trainingStore);
 const { endTraining } = trainingStore;
 
 const onEnd = async () => {
-  await endTraining();
+  const alert = await alertController.create({
+    header: "Training beenden?",
+    subHeader: "Möchtest du das Training beenden?",
+    buttons: [
+      {
+        text: "Ja, beenden",
+        handler: async () => {
+          await endTraining();
+        },
+      },
+      {
+        text: "Nein, weiter trainieren",
+        role: "cancel",
+      },
+    ],
+  });
+  await alert.present();
 };
 </script>

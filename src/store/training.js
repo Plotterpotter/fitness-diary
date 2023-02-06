@@ -95,5 +95,26 @@ export const useTrainingStore = defineStore("training", {
         console.log(e);
       }
     },
+    async deleteDoneExerciseFromTraining({ trainingId, index }) {
+      try {
+        const training = this.trainings.find((el) => el.id === trainingId);
+        training.exercises.splice(index, 1);
+        if (!training.exercises.length) {
+          this.trainings.splice(
+            this.trainings.findIndex((el) => el.id === trainingId),
+            1
+          );
+        }
+        await Filesystem.writeFile({
+          path: "trainings.txt",
+          data: JSON.stringify(this.trainings),
+          directory: Directory.Data,
+          encoding: Encoding.UTF8,
+          recursive: true,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
 });
